@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Modal Popup</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Root Variables for Theme Consistency --- */
+        :root {
+            --primary-blue: #00b4d8;        /* Accent blue for highlights */
+            --dark-bg: #0f172a;             /* Main background */
+            --card-bg: #1e293b;             /* Modal background */
+            --light-text: #e2e8f0;          /* Main body text color */
+            --secondary-text: #94a3b8;      /* Lighter text for details */
+            --accent-yellow: #facc15;      /* Secondary accent */
+            --hover-darken: #0077b6;        /* Darker blue for hover states */
+        }
+
+        /* --- Global & Base Styles --- */
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* --- Button & Main Content Styles --- */
+        .main-container {
+            text-align: center;
+            padding: 40px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .main-container h1 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background-color: var(--primary-blue);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+
+        .btn:hover {
+            background-color: var(--hover-darken);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* --- Policy Modal Overlay (Hidden Full Screen) --- */
+        .policy-modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Dark, transparent backdrop */
+            backdrop-filter: blur(5px);
+            
+            /* Use Flexbox to Center the Popup */
+            align-items: center; 
+            justify-content: center; 
+        }
+
+        /* Class to make the flexbox visible */
+        .policy-modal.active {
+            display: flex; 
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* --- Policy Modal Content Box (The Popup) --- */
+        .policy-modal-content {
+            background: linear-gradient(145deg, var(--card-bg) 0%, #29384e 100%);
+            padding: 30px;
+            border: 2px solid var(--primary-blue);
+            border-radius: 15px;
+            
+            /* Key Changes for Popup Size: */
+            width: 90%; 
+            max-width: 750px; /* Max width for desktop */
+            
+            box-shadow: 0 10px 30px rgba(0, 180, 216, 0.5);
+            position: relative;
+            transform: scale(0.95);
+            animation: scaleIn 0.3s forwards;
+            
+            /* Max height to ensure scrolling within the box */
+            max-height: 90vh; 
+            overflow-y: auto; 
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.9); }
+            to { transform: scale(1); }
+        }
+
+        /* Scrollbar styling for better visibility */
+        .policy-modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .policy-modal-content::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+            border-radius: 10px;
+        }
+        .policy-modal-content::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 10px;
+        }
+
+        /* Close Button */
+        .close-btn {
+            color: var(--accent-yellow);
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: var(--light-text);
+        }
+
+        /* Content Formatting */
+        .policy-modal-content h2 {
+            text-align: center;
+            color: var(--accent-yellow);
+            border-bottom: 2px solid var(--primary-blue);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            text-transform: uppercase;
+        }
+        
+        .policy-modal-content h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-top: 25px;
+        }
+
+        .policy-modal-content p, .policy-modal-content li {
+            color: var(--secondary-text);
+            font-size: 1em;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .policy-modal-content ul {
+            list-style: disc;
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Adjustments for Mobile */
+        @media (max-width: 600px) {
+            .main-container {
+                padding: 20px;
+            }
+            .btn-group {
+                flex-direction: column;
+            }
+            .policy-modal-content {
+                max-height: 95vh;
+                padding: 20px;
+                max-width: 95%; /* Allow it to fill most of the screen on mobile */
+            }
+            .policy-modal-content h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div onclick="myfunction()" class="dismiss">❌</div>
+    <div class="main-container">
+        <h1>Website Policy Documents</h1>
+        <p>Click below to review our essential agreements and data practices in a clean, non-intrusive popup modal.</p>
+        <div class="btn-group">
+            <button class="btn" onclick="openPolicyModal('terms')">View Terms & Conditions</button>
+            <button class="btn" onclick="openPolicyModal('privacy')">View Privacy Policy</button>
+        </div>
+    </div>
+
+    <!-- Policy Modal Structure -->
+    <!-- Backdrop has an onclick to close the modal when clicking outside the content -->
+    <div id="policyModal" class="policy-modal" onclick="closePolicyModal(event)">
+        <div class="policy-modal-content" onclick="event.stopPropagation()">
+            <!-- Close button -->
+            <span class="close-btn" onclick="closePolicyModal()">&times;</span>
+            <div id="policy-content">
+                <!-- Content will be dynamically injected here by JavaScript -->
+            </div>
+        </div>
+    </div>
+    <!-- END: Policy Modal Structure -->
+
+    <!-- Policy Content Templates (Hidden) -->
+    <!-- These divs hold the rich text content and are never displayed directly. -->
+    <div id="terms-content-template" style="display:none;">
+        <h2>Terms & Conditions (v1.0 - October 2025)</h2>
+        <p>Welcome to our service! These Terms and Conditions constitute a legally binding agreement made between you, whether personally or on behalf of an entity ("you"), and [Your Company Name] ("we," "us," or "our"), concerning your access to and use of the [Your Website Name] website as well as any other media form, media channel, mobile website or mobile application related, linked, or otherwise connected thereto (collectively, the "Site").</p>
+
+        <h3>1. Agreement to Terms</h3>
+        <p>By accessing or using the Site, you agree that you have read, understood, and agreed to be bound by all of these Terms and Conditions. If you do not agree with all of these Terms and Conditions, then you are expressly prohibited from using the Site and you must discontinue use immediately.</p>
+
+        <h3>2. Intellectual Property Rights</h3>
+        <p>Unless otherwise indicated, the Site is our proprietary property and all source code, databases, functionality, software, website designs, audio, video, text, photographs, and graphics on the Site (collectively, the "Content") and the trademarks, service marks, and logos contained therein (the "Marks") are owned or controlled by us or licensed to us, and are protected by copyright and trademark laws.</p>
+        <ul>
+            <li>The Content and the Marks are provided on the Site "AS IS" for your information and personal use only.</li>
+            <li>Except as expressly provided in these Terms and Conditions, no part of the Site and no Content or Marks may be copied, reproduced, aggregated, republished, uploaded, posted, publicly displayed, encoded, translated, transmitted, distributed, sold, licensed, or otherwise exploited for any commercial purpose whatsoever, without our express prior written permission.</li>
+        </ul>
+        
+        <h3>3. User Representations</h3>
+        <p>By using the Site, you represent and warrant that: (1) all registration information you submit will be true, accurate, current, and complete; (2) you will maintain the accuracy of such information and promptly update such registration information as necessary; (3) you have the legal capacity and you agree to comply with these Terms and Conditions.</p>
+
+        <h3>4. Governing Law</h3>
+        <p>These Terms shall be governed by and defined by the laws of [Your Jurisdiction]. [Your Company Name] and yourself irrevocably consent that the courts of [Your Jurisdiction] shall have exclusive jurisdiction to resolve any dispute which may arise in connection with these terms.</p>
+    </div>
+
+    <div id="privacy-content-template" style="display:none;">
+        <h2>Privacy Policy (v1.0 - October 2025)</h2>
+        <p>This Privacy Policy describes how [Your Company Name] ("Company," "we," and "our") collects, uses, and shares your personal information when you use our website. We take your privacy seriously and aim to be transparent about our data handling practices.</p>
+
+        <h3>1. Data Collection</h3>
+        <p>We collect personal information that you voluntarily provide to us when you register on the Site, express an interest in obtaining information about us or our products and services, when you participate in activities on the Site, or otherwise contact us.</p>
+        <ul>
+            <li>**Personal Data:** We may collect names, email addresses, and other similar contact information.</li>
+            <li>**Usage Data:** We automatically collect certain information when you visit or use the Site. This may include your IP address, browser type, operating system, language preferences, referring URLs, device name, country, location, and information about how you use our Site.</li>
+        </ul>
+
+        <h3>2. Use of Your Information</h3>
+        <p>We use personal information collected via our Site for a variety of business purposes described below. We process your personal information for these purposes in reliance on our legitimate business interests, in order to enter into or perform a contract with you, with your consent, and/or for compliance with our legal obligations.</p>
+        <ol>
+            <li>**To facilitate account creation and logon process.**</li>
+            <li>**To post testimonials** with your consent.</li>
+            <li>**To send you marketing and promotional communications.**</li>
+            <li>**To fulfill and manage your orders and requests.**</li>
+            <li>**To respond to your inquiries** and offer support to users.</li>
+        </ol>
+
+        <h3>3. Cookies and Tracking Technologies</h3>
+        <p>We may use cookies and similar tracking technologies (like web beacons and pixels) to access or store information. Specific information about how we use such technologies and how you can refuse certain cookies is set out in our Cookie Policy (not included here, but typically referenced).</p>
+
+        <h3>4. Security of Your Information</h3>
+        <p>We use administrative, technical, and physical security measures to help protect your personal information. While we have taken reasonable steps to secure the personal information you provide to us, please be aware that despite our efforts, no security measures are perfect or impenetrable, and no method of data transmission can be guaranteed against any interception or other type of misuse.</p>
+    </div>
+    <!-- END: Policy Content Templates -->
+
+    <script>
+        /**
+         * Opens the policy modal and loads the specified content.
+         * @param {string} policyType - 'terms' or 'privacy'
+         */
+        function openPolicyModal(policyType) {
+            const modal = document.getElementById('policyModal');
+            const contentContainer = document.getElementById('policy-content');
+            
+            // Determine which hidden template to use
+            let contentTemplateId = policyType === 'privacy' ? 'privacy-content-template' : 'terms-content-template';
+            const contentTemplate = document.getElementById(contentTemplateId);
+
+            if (contentTemplate) {
+                // Inject the content into the visible modal area
+                contentContainer.innerHTML = contentTemplate.innerHTML;
+                
+                // Display the modal using the 'active' class (CSS handles the centering/animation)
+                modal.classList.add('active'); 
+                document.body.style.overflow = 'hidden'; // Prevent the main page from scrolling
+            }
+        }
+
+        /**
+         * Closes the policy modal.
+         * @param {Event} event - The click event that triggered the function (optional)
+         */
+        function closePolicyModal(event) {
+            const modal = document.getElementById('policyModal');
+
+            // 1. If an event exists, check if the click target was the content box itself. 
+            // If it was, we prevent closing (only clicking the backdrop or 'X' should close it).
+            if (event && event.target.id !== 'policyModal' && !event.target.classList.contains('close-btn')) {
+                return; 
+            }
+            
+            // 2. Hide the modal and restore scrolling
+            modal.classList.remove('active'); 
+            document.body.style.overflow = 'auto'; 
+        }
+
+        // Optional: Close modal on Escape key press
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape" && document.getElementById('policyModal').classList.contains('active')) {
+                closePolicyModal();
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

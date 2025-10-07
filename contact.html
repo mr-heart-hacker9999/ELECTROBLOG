@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroBlog - Contact Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* --- Root Variables for Theme Consistency (Copied from previous files) --- */
+        :root {
+            --primary-blue: #00b4d8;
+            /* Accent blue for links, highlights */
+            --dark-bg: #0f172a;
+            /* Main background */
+            --card-bg: #1e293b;
+            /* Card and section backgrounds */
+            --light-text: #e2e8f0;
+            /* Main body text color */
+            --secondary-text: #94a3b8;
+            /* Lighter text for meta, descriptions */
+            --accent-yellow: #facc15;
+            /* Secondary accent for headings */
+            --hover-darken: #0077b6;
+            /* Darker blue for hover states */
+            --border-color: rgba(255, 255, 255, 0.1);
+            /* Subtle borders */
+        }
+
+        /* --- Global & Base Styles (Copied from previous files) --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary-blue);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--hover-darken);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: var(--light-text);
+            margin-bottom: 0.8em;
+            line-height: 1.2;
+        }
+
+        p {
+            margin-bottom: 1em;
+            color: var(--secondary-text);
+        }
+
+        section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- Utility Classes (Copied from previous files) --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--primary-blue);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+
+        .btn:hover {
+            background-color: var(--hover-darken);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* --- Navbar (Copied from previous files) --- */
+        .navbar {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .navbar-menu-item a {
+            color: var(--light-text);
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .navbar-menu-item a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-blue);
+            transition: width 0.3s ease;
+        }
+
+        .navbar-menu-item a:hover::after,
+        .navbar-menu-item a.active::after {
+            width: 100%;
+        }
+
+        /* Mobile Hamburger Icon */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger-menu .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--light-text);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Hamburger animation */
+        .hamburger-menu.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .hamburger-menu.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+        
+        /* --- Contact Hero Section --- */
+        .contact-hero {
+            background: linear-gradient(180deg, var(--dark-bg) 0%, #1e293b 100%);
+            text-align: center;
+            padding: 80px 20px 40px;
+        }
+        
+        .contact-hero h1 {
+            font-size: 3.5rem;
+            color: var(--accent-yellow);
+            text-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+        }
+        
+        .contact-hero p {
+            font-size: 1.2rem;
+            color: var(--secondary-text);
+            max-width: 800px;
+            margin: 20px auto 40px;
+        }
+        
+        /* --- Contact Content Grid --- */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+            padding: 40px 20px;
+        }
+
+        /* --- Info Side --- */
+        .contact-info {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border-left: 5px solid var(--primary-blue);
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+        
+        .info-item i {
+            color: var(--accent-yellow);
+            font-size: 1.8rem;
+            width: 30px;
+            text-align: center;
+            flex-shrink: 0;
+            padding-top: 5px;
+        }
+        
+        .info-item h4 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            color: var(--light-text);
+        }
+        
+        .info-item p {
+            color: var(--secondary-text);
+            margin: 0;
+        }
+
+        /* --- Form Side --- */
+        .contact-form-container {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border-right: 5px solid var(--primary-blue);
+        }
+        
+        .contact-form h3 {
+            color: var(--primary-blue);
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--light-text);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--primary-blue);
+            border-radius: 8px;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            resize: vertical;
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--secondary-text);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--accent-yellow);
+            box-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
+        }
+        
+        .contact-form button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-blue);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-transform: uppercase;
+            font-size: 1.1em;
+        }
+        
+        .contact-form button:hover {
+            background-color: var(--hover-darken);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* --- Map Section --- */
+        .map-section {
+            padding: 0 20px 60px;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 400px;
+            background-color: #273748;
+            border: 2px solid var(--primary-blue);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--secondary-text);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+        }
+        
+        /* --- Footer (Copied from previous files) --- */
+        .footer {
+            background-color: var(--card-bg);
+            color: var(--secondary-text);
+            padding: 50px 20px 20px 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: var(--primary-blue);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: var(--secondary-text);
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--primary-blue);
+        }
+
+        .footer-social-icons {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .footer-social-icons a {
+            font-size: 1.5rem;
+            color: var(--light-text);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .footer-social-icons a:hover {
+            color: var(--primary-blue);
+            transform: scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: var(--secondary-text);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+            .contact-form-container,
+            .contact-info {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+            .map-placeholder {
+                height: 300px;
+            }
+            .contact-info {
+                 border-left: none;
+                 border-top: 5px solid var(--primary-blue);
+            }
+            .contact-form-container {
+                 border-right: none;
+                 border-bottom: 5px solid var(--primary-blue);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--card-bg);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+                padding: 20px 0;
+                border-top: 1px solid var(--border-color);
+                height: 0;
+                overflow: hidden;
+                transition: height 0.3s ease-in-out;
+            }
+
+            .navbar-menu.active {
+                display: flex;
+                height: auto;
+                align-items: center;
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+            
+            .contact-hero h1 {
+                font-size: 2.5rem;
+            }
+            .contact-hero p {
+                font-size: 1em;
+            }
+            .contact-form h3 {
+                font-size: 1.5rem;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+            .contact-hero h1 {
+                font-size: 2rem;
+            }
+            .info-item {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">ELECTROBLOG</a>
+        <ul class="navbar-menu" id="navbarMenu">
+            <li class="navbar-menu-item"><a href="index.html">Home</a></li>
+            <li class="navbar-menu-item"><a href="featured.html">Featured</a></li>
+            <li class="navbar-menu-item"><a href="latest.html">Latest</a></li>
+            <li class="navbar-menu-item"><a href="categories.html">Categories</a></li>
+            <li class="navbar-menu-item"><a href="newsletter.html">Subscribe</a></li>
+            <li class="navbar-menu-item"><a href="about.html">About</a></li>
+            <li class="navbar-menu-item"><a href="contact.html" class="active">Contact</a></li>
+            <li class="navbar-menu-item"><a href="review.html">Reviews</a></li>
+        </ul>
+        <div class="hamburger-menu" id="hamburger" onclick="toggleMobileMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </nav>
+
+    <header class="contact-hero">
+        <h1 data-aos="fade-down" data-aos-duration="1000">Get in Touch with the Tech Team</h1>
+        <p data-aos="fade-up" data-aos-delay="300">
+            We're here to answer your questions, discuss collaborations, or hear your feedback on the latest components. Drop us a line—we read every message.
+        </p>
+    </header>
+    
+    <section class="contact-content container">
+        
+        <div class="contact-info" data-aos="fade-right" data-aos-duration="1200">
+            <h2>Our Details</h2>
+            <p style="margin-bottom: 30px; color: var(--accent-yellow);">How to find and reach the ELECTROBLOG headquarters.</p>
+
+            <div class="info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <h4>Address</h4>
+                    <p>Rajesultanpur Ambedkar Nagar
+                    </p>
+                    <p>Uttar Pradesh, India</p>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <i class="fas fa-envelope"></i>
+                <div>
+                    <h4>Email Us</h4>
+                    <p>divyanshmaurya37@gmail.com</p>
+                
+                </div>
+            </div>
+
+            <div class="info-item">
+                <i class="fas fa-phone"></i>
+                <div>
+                    <h4>Call Us</h4>
+                    <p>+197379678031</p>
+                    <p>Mon - Fri: 9am - 5pm EST</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <i class="fas fa-clock"></i>
+                <div>
+                    <h4>Response Time</h4>
+                    <p>We typically respond within **24 hours**.</p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="contact-form-container" data-aos="fade-left" data-aos-duration="1200">
+            <form class="contact-form" onsubmit="alert('Message Sent! We will connect soon.'); return false;">
+                <h3>Send Us a Message</h3>
+
+                <div class="form-group" data-aos="fade-left" data-aos-delay="200">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="John Doe" required>
+                </div>
+
+                <div class="form-group" data-aos="fade-left" data-aos-delay="300">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="you@example.com" required>
+                </div>
+
+                <div class="form-group" data-aos="fade-left" data-aos-delay="400">
+                    <label for="subject">Subject</label>
+                    <select id="subject" required>
+                        <option value="" disabled selected>Select an Inquiry Type</option>
+                        <option value="General">General Inquiry</option>
+                        <option value="Support">Technical Support</option>
+                        <option value="Partnership">Partnership / Collaboration</option>
+                        <option value="Feedback">Website Feedback</option>
+                    </select>
+                </div>
+
+                <div class="form-group" data-aos="fade-left" data-aos-delay="500">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" rows="5" placeholder="Tell us what you need help with..." required></textarea>
+                </div>
+
+                <button type="submit" data-aos="zoom-in" data-aos-delay="600">
+                    Send Message <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <section class="map-section container">
+        <h2 class="text-center" data-aos="fade-up">Our Location</h2>
+        <div class="map-placeholder" data-aos="zoom-in" data-aos-delay="200">
+           <iframe style="border-radius: 13px;" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d577.0067261235591!2d83.07125559944176!3d26.283554003330604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1shi!2sin!4v1759730235836!5m2!1shi!2sin" width="100%" height="396" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-section">
+                <h4>ELECTROBLOG</h4>
+                <p>Your ultimate resource for all things electronics. From beginner guides to advanced projects, we've got you covered.</p>
+                <div class="footer-social-icons">
+                   <a href="https://www.facebook.com/divyansh.maurya.58910?mibextid=ZbWKwL" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/MauryaDiv43215?t=8TPmPGHjIRITCY0yiitLbw&s=08" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/_mr_heart_hacker9999?igsh=N3ZuczZ2Mm5ieHdq" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/divyansh-maurya-9432112a3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="popup.html">Privacy Policy</a></li>
+                    <li><a href="popup.html">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="categories.html">Microcontrollers</a></li>
+                    <li><a href="categories.html">DIY Projects</a></li>
+                    <li><a href="categories.html">IoT</a></li>
+                    <li><a href="review.html">Reviews</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Rajesultanpur Ambedkar Nagar 224176 Uttar Pradesh, India.</p>
+                <p><i class="fas fa-envelope"></i>divyanshmaurya37@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +917379678031</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ElectroBlog. All rights reserved. | Crafted with <i class="fas fa-heart" style="color: #e74c3c;"></i> for Electronics.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS - Animate On Scroll Library
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({
+                duration: 1000,
+                once: true, // Animation happens only once
+                offset: 100,
+            });
+        });
+
+        // Mobile Navbar Toggle
+        function toggleMobileMenu() {
+            const navbarMenu = document.getElementById('navbarMenu');
+            const hamburger = document.getElementById('hamburger');
+            navbarMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+
+            // Adjust menu height for smooth transition
+            if (navbarMenu.classList.contains('active')) {
+                navbarMenu.style.height = navbarMenu.scrollHeight + "px";
+            } else {
+                navbarMenu.style.height = "0";
+            }
+        }
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.navbar-menu-item a').forEach(item => {
+            item.addEventListener('click', () => {
+                const navbarMenu = document.getElementById('navbarMenu');
+                const hamburger = document.getElementById('hamburger');
+                if (navbarMenu.classList.contains('active')) {
+                    navbarMenu.classList.remove('active');
+                    hamburger.classList.remove('active');
+                    navbarMenu.style.height = "0";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
